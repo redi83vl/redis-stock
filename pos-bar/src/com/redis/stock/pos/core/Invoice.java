@@ -86,8 +86,19 @@ public class Invoice extends ArrayList<Invoice.Entry> implements Serializable{
 
 	@Override
 	public boolean add(Entry entry) {
-		return super.add(entry);
+		int idx = super.indexOf(entry);
+		if(idx == -1) {
+			super.add(0, entry);
+		}
+		else {
+			Double size = super.remove(idx).getSize();
+			entry = entry.plusSize(size);
+			super.add(0, entry);
+		}
+		
+		return true;
 	}
+	
 	
 
 	public double getValue() {
@@ -151,17 +162,18 @@ public class Invoice extends ArrayList<Invoice.Entry> implements Serializable{
 		
 		public void setSize(double size) {this.size = size;}
 		public void setPrice(double price) {this.price = price;}
-		public void setTax(double tax) {this.tax = tax;}		
+		public void setTax(double tax) {this.tax = tax;}	
+		
+		public Entry plusSize(Double size) {
+			return new Entry(code, name, unit, this.size + size, price, tax);
+		}
 
 		@Override
 		public String toString() {return code;}
 
 		@Override
 		public int hashCode() {
-			int hash = 5;
-			hash = 13 * hash + Objects.hashCode(this.code);
-			hash = 13 * hash + (int) (Double.doubleToLongBits(this.price) ^ (Double.doubleToLongBits(this.price) >>> 32));
-			hash = 13 * hash + (int) (Double.doubleToLongBits(this.tax) ^ (Double.doubleToLongBits(this.tax) >>> 32));
+			int hash = 7;
 			return hash;
 		}
 
@@ -183,8 +195,16 @@ public class Invoice extends ArrayList<Invoice.Entry> implements Serializable{
 			if (Double.doubleToLongBits(this.tax) != Double.doubleToLongBits(other.tax)) {
 				return false;
 			}
-			return Objects.equals(this.code, other.code);
+			if (!Objects.equals(this.code, other.code)) {
+				return false;
+			}
+			if (!Objects.equals(this.name, other.name)) {
+				return false;
+			}
+			return Objects.equals(this.unit, other.unit);
 		}
+
+		
 	}
 	
 	

@@ -52,7 +52,7 @@ public class TableModelInvoice implements TableModel {
 		
 	@Override
 	public int getRowCount() {
-		return this.invoice==null ? 0 : this.invoice.size();
+		return this.invoice == null ? 0 : this.invoice.size();
 	}
 	
 	@Override
@@ -93,7 +93,7 @@ public class TableModelInvoice implements TableModel {
 	}
 
 	@Override
-	public Object getValueAt(int row, int col) {		
+	public Object getValueAt(int row, int col) {			
 		switch(col) {
 			case 0: return invoice.get(row).getCode();
 			case 1: return invoice.get(row).getName();

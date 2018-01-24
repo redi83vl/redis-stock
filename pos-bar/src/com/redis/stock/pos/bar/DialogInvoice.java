@@ -17,6 +17,7 @@
 package com.redis.stock.pos.bar;
 
 import com.redis.stock.pos.core.Invoice;
+import com.redis.stock.pos.core.Invoice.Entry;
 import com.redis.stock.pos.core.Product;
 import java.awt.Frame;
 import java.awt.event.WindowAdapter;
@@ -41,7 +42,12 @@ public abstract class DialogInvoice extends javax.swing.JDialog {
 		this.invoice = invoice;
 		
 		this.setTitle(invoice == null ? "" : invoice.getTarget().getName());
+		this.fieldValue.setValue(invoice == null ? 0 : invoice.getGrossValue());
 		this.tableModel.setInvoice(invoice);
+	}
+	
+	public void refresh() {
+		
 	}
 	
 	public abstract Product getProduct(String code);
@@ -65,9 +71,14 @@ public abstract class DialogInvoice extends javax.swing.JDialog {
           jScrollPane1 = new javax.swing.JScrollPane();
           table = new org.jdesktop.swingx.JXTable();
           jToolBar2 = new javax.swing.JToolBar();
-          fieldClient = new javax.swing.JFormattedTextField();
           filler2 = new javax.swing.Box.Filler(new java.awt.Dimension(0, 0), new java.awt.Dimension(0, 0), new java.awt.Dimension(32767, 0));
           fieldValue = new javax.swing.JFormattedTextField();
+
+          tableModel.addTableModelListener(new javax.swing.event.TableModelListener() {
+               public void tableChanged(javax.swing.event.TableModelEvent evt) {
+                    tableModelTableChanged(evt);
+               }
+          });
 
           setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
           setTitle("FATURE TAVOLINE");
@@ -148,6 +159,11 @@ public abstract class DialogInvoice extends javax.swing.JDialog {
           table.setShowHorizontalLines(false);
           table.setShowVerticalLines(false);
           table.getTableHeader().setReorderingAllowed(false);
+          table.addMouseListener(new java.awt.event.MouseAdapter() {
+               public void mouseClicked(java.awt.event.MouseEvent evt) {
+                    tableMouseClicked(evt);
+               }
+          });
           jScrollPane1.setViewportView(table);
           if (table.getColumnModel().getColumnCount() > 0) {
                table.getColumnModel().getColumn(0).setPreferredWidth(50);
@@ -168,19 +184,12 @@ public abstract class DialogInvoice extends javax.swing.JDialog {
 
           jToolBar2.setFloatable(false);
           jToolBar2.setRollover(true);
-
-          fieldClient.setEditable(false);
-          fieldClient.setColumns(25);
-          fieldClient.setHorizontalAlignment(javax.swing.JTextField.CENTER);
-          fieldClient.setFont(new java.awt.Font("Tahoma", 0, 10)); // NOI18N
-          fieldClient.setMaximumSize(new java.awt.Dimension(206, 19));
-          jToolBar2.add(fieldClient);
           jToolBar2.add(filler2);
 
           fieldValue.setEditable(false);
           fieldValue.setColumns(10);
           fieldValue.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
-          fieldValue.setFont(new java.awt.Font("Tahoma", 0, 10)); // NOI18N
+          fieldValue.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
           fieldValue.setMaximumSize(new java.awt.Dimension(86, 19));
           jToolBar2.add(fieldValue);
 
@@ -258,9 +267,28 @@ public abstract class DialogInvoice extends javax.swing.JDialog {
 		}
      }//GEN-LAST:event_jXSearchField1MouseClicked
 
+     private void tableModelTableChanged(javax.swing.event.TableModelEvent evt) {//GEN-FIRST:event_tableModelTableChanged
+          this.fieldValue.setValue(invoice == null ? 0 : invoice.getGrossValue());
+     }//GEN-LAST:event_tableModelTableChanged
+
+     private void tableMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tableMouseClicked
+          int idx = this.table.rowAtPoint(evt.getPoint());
+		if(idx != -1) {
+			idx = table.convertRowIndexToModel(idx);
+			Entry entry = tableModel.getInvoice().get(idx);
+			entry.setSize(entry.getSize()-1.0d);
+			if(entry.getSize()<=0.0d)
+				tableModel.getInvoice().remove(idx);
+			
+			tableModel.fireDatasetChanged();
+			
+			
+			evt.consume();
+		}
+     }//GEN-LAST:event_tableMouseClicked
+
 
      // Variables declaration - do not modify//GEN-BEGIN:variables
-     private javax.swing.JFormattedTextField fieldClient;
      private javax.swing.JFormattedTextField fieldValue;
      private javax.swing.Box.Filler filler1;
      private javax.swing.Box.Filler filler2;

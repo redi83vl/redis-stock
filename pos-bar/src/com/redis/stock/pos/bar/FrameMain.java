@@ -50,6 +50,8 @@ import javax.swing.Timer;
  */
 public class FrameMain extends javax.swing.JFrame implements ActionListener{
 	private Instant startInstant;
+	private Integer size;
+	private Double value;
 	private Employee employee;
 	private List<Client> clients;
 	private List<Product> products;	
@@ -64,6 +66,9 @@ public class FrameMain extends javax.swing.JFrame implements ActionListener{
 	
 	private void start(String code) {
 		this.startInstant = Instant.now();
+		this.size = 0;
+		this.value = 0.0d;
+		
 		employee = Employee.get(code);
 		clients = Client.getAll();
 		products = Product.getAll();
@@ -246,9 +251,10 @@ public class FrameMain extends javax.swing.JFrame implements ActionListener{
 				JOptionPane.showMessageDialog(this, "Gabim gjate ruajtjes se fatures!", "Gabim", JOptionPane.ERROR_MESSAGE);
 				return;
 			}
+			size += 1;
+			value += invoice.getGrossValue();
 		}
-		cancel(client);
-		
+		cancel(client);		
 	}
 	
 	
