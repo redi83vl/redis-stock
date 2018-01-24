@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<!--
+Copyright (C) 2018 Redjan Shabani L76604205F
+
+This program is free software: you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program.  If not, see <http://www.gnu.org/licenses/>.
+-->
+<html>
+    <head>
+        <title>REDIS STOCK - FLETE HYRJE</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <!-- Latest compiled and minified CSS -->
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+
+        <!-- jQuery library -->
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+
+        <!-- Latest compiled JavaScript -->
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    </head>
+    <body>
+        <div class="container">
+			<table width="100%">
+				<tr>
+					<td style="text-align: left"><b>STOCK_NAME</b></td>
+					<td style="text-align: right">STOCK_ADDRESS</td>
+				</tr>					
+				<tr>
+					<td style="text-align: left">STOCK_CODE</td>
+					<td style="text-align: right">STOCK_PHONE | STOCK_EMAIL</td>
+				</tr>
+			</table>
+			<hr/>
+            
+            <h3 class="text-center">FLETE HYRJE</h3>                
+			<table>
+				<tr><td>Kodi:&nbsp;&nbsp;</td><td><b>DOC_CODE</b></td></tr>
+				<tr><td>Data/Ora:&nbsp;&nbsp;</td><td><b>DOC_DATE_TIME</b></td></tr>
+				<tr><td>Shitesi:&nbsp;&nbsp;</td><td><b>DOC_SOURCE</b></td></tr>
+			</table>
+            
+			<table width="100%" class="table table-stripped" border="1px" >
+				<tr>
+					<td align="center" style="width:10%;">Kodi</th>
+					<td align="center" style="width:50%;">Emertimi</th>
+					<td align="center" style="width:10%;">Njesia</th>
+					<td align="center" style="width:10%;">Sasia</th>
+					<td align="center" style="width:10%;">Cmimi</th>
+					<td align="right" style="width:15%;">Vlera</th>
+					<td align="right" style="width:15%;">Tvsh</th>
+					<td align="right" style="width:15%;">Total</th>
+				</tr>
+				DOC_ENTRIES
+			</table>
+        </div>
+    </body>
+</html>
+<script>
+    $(function(){
+        window.print();
+    });
+    
+</script>
