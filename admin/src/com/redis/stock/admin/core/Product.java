@@ -109,7 +109,7 @@ public class Product implements Comparable<Product>{
 	}
 
 	public void setSize(double size) {
-		try(Connection conn = SQL.getConnection()) {
+		try(Connection conn = SQL.getInstance().getConnection()) {
 			PreparedStatement pstat = conn.prepareStatement("UPDATE `Product` SET `size` = ? WHERE `code` = ?");
 			pstat.setDouble(1, size);
 			pstat.setString(2, this.code);
@@ -122,7 +122,7 @@ public class Product implements Comparable<Product>{
 	}
 
 	public void setCost(double cost) {
-		try(Connection conn = SQL.getConnection()) {
+		try(Connection conn = SQL.getInstance().getConnection()) {
 			PreparedStatement pstat = conn.prepareStatement("UPDATE `Product` SET `cost` = ? WHERE `code` = ?");
 			pstat.setDouble(1, cost);
 			pstat.setString(2, this.code);
@@ -137,7 +137,7 @@ public class Product implements Comparable<Product>{
 	
 
 	public void setPrice(double price) {
-		try(Connection conn = SQL.getConnection()) {
+		try(Connection conn = SQL.getInstance().getConnection()) {
 			PreparedStatement pstat = conn.prepareStatement("UPDATE `Product` SET `price` = ? WHERE `code` = ?");
 			pstat.setDouble(1, price);
 			pstat.setString(2, this.code);
@@ -150,7 +150,7 @@ public class Product implements Comparable<Product>{
 	}
 
 	public void setTax(double tax) {
-		try(Connection conn = SQL.getConnection()) {
+		try(Connection conn = SQL.getInstance().getConnection()) {
 			PreparedStatement pstat = conn.prepareStatement("UPDATE `Product` SET `tax` = ? WHERE `code` = ?");
 			pstat.setDouble(1, tax);
 			pstat.setString(2, this.code);
@@ -199,7 +199,7 @@ public class Product implements Comparable<Product>{
 	public static int getId(Product product) {
 		int id = -1;
 
-		try(Connection connection = SQL.getConnection()) {
+		try(Connection connection = SQL.getInstance().getConnection()) {
 			PreparedStatement preparedStatement = connection.prepareStatement("SELECT `id` FROM `Product` WHERE `code` = ?");			
 			preparedStatement.setString(1, product.getCode());			
 			ResultSet resultSet = preparedStatement.executeQuery();			
@@ -215,7 +215,7 @@ public class Product implements Comparable<Product>{
 	public static Product get(int id) {
 		Product product = null;
 
-		try(Connection connection = SQL.getConnection()) {
+		try(Connection connection = SQL.getInstance().getConnection()) {
 			PreparedStatement preparedStatement = connection.prepareStatement(""
 				+ "SELECT `code`, `group`, `name`, `unit`, `size`, `cost`, `price`, `tax`"
 				+ "FROM `Product` "
@@ -248,7 +248,7 @@ public class Product implements Comparable<Product>{
 	public static Set<Product> getAll() {
 		Set<Product> products = new  HashSet();
 
-		try(Connection connection = SQL.getConnection()) {
+		try(Connection connection = SQL.getInstance().getConnection()) {
 			PreparedStatement preparedStatement = connection.prepareStatement(""
 				+ "SELECT `code`, `group`, `name`, `unit`, `size`, `cost`, `price`, `tax`"
 				+ "FROM `Product` "
@@ -281,7 +281,7 @@ public class Product implements Comparable<Product>{
 	public static List<Product> read() {
 		List<Product> products = new  ArrayList<>();
 
-		try(Connection connection = SQL.getConnection()) {
+		try(Connection connection = SQL.getInstance().getConnection()) {
 			PreparedStatement preparedStatement = connection.prepareStatement(""
 				+ "SELECT `code`, `group`, `name`, `unit`, `size`, `cost`, `price`, `tax`"
 				+ "FROM `Product`");
@@ -313,7 +313,7 @@ public class Product implements Comparable<Product>{
 	public static int put(Product entry) {
 		int id = -1;
 
-		try(Connection connection = SQL.getConnection()) {
+		try(Connection connection = SQL.getInstance().getConnection()) {
 			PreparedStatement preparedStatement = connection.prepareStatement(""
 				+ "REPLACE INTO `Product` (`code`, `group`, `name`, `unit`, `size`, `cost`, `price`, `tax`) "
 				+ "VALUES (?,?,?,?,?,?,?,?)", PreparedStatement.RETURN_GENERATED_KEYS);
@@ -345,7 +345,7 @@ public class Product implements Comparable<Product>{
 	public static int remove(Product product) {
 		int id = Product.getId(product);
 
-		try(Connection connection = SQL.getConnection()) {
+		try(Connection connection = SQL.getInstance().getConnection()) {
 			PreparedStatement preparedStatement = connection.prepareStatement("DELETE FROM `Product` WHERE `id` = ?");
 
 			preparedStatement.setInt(1, id);
@@ -362,7 +362,7 @@ public class Product implements Comparable<Product>{
 	public static boolean delete(Product product) {
 		boolean success = false;
 
-		try(Connection connection = SQL.getConnection()) {
+		try(Connection connection = SQL.getInstance().getConnection()) {
 			PreparedStatement preparedStatement = connection.prepareStatement("DELETE FROM `Product` WHERE `code` = ?");
 
 			preparedStatement.setString(1, product.getCode());

@@ -16,58 +16,62 @@
  */
 package com.redis.stock;
 
+import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.util.Properties;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import java.util.prefs.BackingStoreException;
-import java.util.prefs.Preferences;
 
 /**
  *
  * @author Redjan Shabani
  */
-public class SQL {	
-	private static final Preferences PREFERENCES = Preferences.userNodeForPackage(SQL.class);
-	
-	public static String getHostUrl() {return SQL.PREFERENCES.get("sql_host_url", "");}
-	public static String getSchemaName() {return SQL.PREFERENCES.get("sql_schema_name", "");}
-	public static String getUsername() {return SQL.PREFERENCES.get("sql_username", "");}
-	public static String getPassword() {return SQL.PREFERENCES.get("sql_password", "");}
-	
-	public static void setHostUrl(String hostUrl) {SQL.PREFERENCES.put("sql_host_url", hostUrl);}
-	public static void setSchemaName(String schemaName) {SQL.PREFERENCES.put("sql_schema_name", schemaName);}
-	public static void setUsername(String username) {SQL.PREFERENCES.put("sql_username", username);}
-	public static void setPassword(String password) {SQL.PREFERENCES.put("sql_password", password);}
-	
-	public static Connection getConnection() throws SQLException {		
-		return DriverManager.getConnection(SQL.getHostUrl() + "/" + SQL.getSchemaName(), 
-			SQL.getUsername(), 
-			SQL.getPassword()
-		);
+public class SQL {		
+	private final Properties properties;
+
+	private SQL(Properties properties) {
+		this.properties = properties;
 	}
 	
-	public static void store() {
-		try {
-			PREFERENCES.exportNode(new FileOutputStream("./sql.xml"));
+	public String getUrl() {return properties.getProperty("url");}
+	public String getUsername() {return properties.getProperty("username");}
+	public String getPassword() {return properties.getProperty("password");}
+		
+	public Connection getConnection() throws SQLException {		
+		return DriverManager.getConnection(this.getUrl(),this.getUsername(), this.getPassword());
+	}
+	
+	public static SQL getInstance() {
+		Properties props = new Properties();
+		
+		try(FileInputStream fis = new FileInputStream(new File("mysql.xml"))){
+			props.loadFromXML(fis);
 		} 
-		catch (IOException | BackingStoreException ex) {
+		catch (IOException ex) {
 			Logger.getLogger(SQL.class.getName()).log(Level.SEVERE, null, ex);
 		}
-	}
-	
-	
+		
+		return new SQL(props);		
+	}	
 			
 	public static void main(String[] args) {
-		SQL.setHostUrl("jdbc:mysql://localhost:3306");
-		SQL.setSchemaName("redis-stock");
-		SQL.setUsername("admin");
-		SQL.setPassword("admin");
-		
-		SQL.store();
+		Properties props = new Properties();
+		props.setProperty("url", "jdbc:mysql//127.0.0.1:3306/redis-stock");
+		props.setProperty("username", "admin");
+		props.setProperty("password", "admin");
+		try(FileOutputStream fos = new FileOutputStream(new File("mysql.xml"))){
+			props.storeToXML(fos, LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyMMddHHmmss")));
+		}
+		catch (IOException ex) {
+			Logger.getLogger(SQL.class.getName()).log(Level.SEVERE, null, ex);
+		}		
 	}
 }
 

@@ -82,7 +82,7 @@ public class Output extends ArrayList<Item>{
 	public double getGrossValue(){return this.getValue() + this.getTaxValue();}
 	
 	public void setInstant(Instant instant) {
-		try(Connection conn = SQL.getConnection()) {
+		try(Connection conn = SQL.getInstance().getConnection()) {
 			PreparedStatement pstat = conn.prepareStatement("UPDATE `Output` SET `instant` = ? WHERE `id` = ?");
 			pstat.setInt(2, this.id);
 			pstat.setTimestamp(1, Timestamp.from(instant));
@@ -97,7 +97,7 @@ public class Output extends ArrayList<Item>{
 	}
 	
 	public void setPaid(boolean paid) {
-		try(Connection conn = SQL.getConnection()) {
+		try(Connection conn = SQL.getInstance().getConnection()) {
 			PreparedStatement pstat = conn.prepareStatement("UPDATE `Output` SET `paid` = ? WHERE `id` = ?");
 			pstat.setBoolean(1, paid);
 			pstat.setInt(2, this.id);
@@ -124,11 +124,12 @@ public class Output extends ArrayList<Item>{
 			Logger.getLogger(Output.class.getName()).log(Level.SEVERE, null, ex);
 		}
 		
-		html = html.replace("STOCK_CODE", Stock.getCode());
-		html = html.replace("STOCK_NAME", Stock.getName());
-		html = html.replace("STOCK_ADDRESS", Stock.getAddress());
-		html = html.replace("STOCK_PHONE", Stock.getPhone());
-		html = html.replace("STOCK_EMAIL", Stock.getEmail());
+		Stock stock = Stock.getInstance();		
+		html = html.replace("STOCK_CODE", stock.getCode());
+		html = html.replace("STOCK_NAME", stock.getName());
+		html = html.replace("STOCK_ADDRESS", stock.getAddress());
+		html = html.replace("STOCK_PHONE", stock.getPhone());
+		html = html.replace("STOCK_EMAIL", stock.getEmail());
 		
 		html = html.replace("DOC_CODE", output.getCode());
 		html = html.replace("DOC_DATE_TIME", new SimpleDateFormat("dd.MM.yyyy HH:mm:ss").format(Date.from(output.getInstant())));
@@ -175,7 +176,7 @@ public class Output extends ArrayList<Item>{
 	public static Output create(String code, Instant instant, Employee author, Client target, boolean paid, Collection<Item> items) {
 		Output output = null;
 		
-		try(Connection conn = SQL.getConnection()) {
+		try(Connection conn = SQL.getInstance().getConnection()) {
 			PreparedStatement pstat = conn.prepareStatement(""
 				+ "INSERT INTO `Output` (`code`, `instant`, `author`, `target`, `paid`) "
 				+ "VALUES (?,?,?,?,?)", PreparedStatement.RETURN_GENERATED_KEYS);
@@ -222,7 +223,7 @@ public class Output extends ArrayList<Item>{
 	public static List<Output> read() {
 		List<Output> outputs = new ArrayList<>();
 
-		try(Connection conn = SQL.getConnection()) {
+		try(Connection conn = SQL.getInstance().getConnection()) {
 			PreparedStatement pstat = conn.prepareStatement(""
 				+ "SELECT `o`.`id`, `o`.`code`, `o`.`instant`, `o`.`author`, `o`.`target`, `o`.`paid`, SUM(`e`.`size` * `e`.`price`) AS `value`, SUM(`e`.`size` * `e`.`price` * `e`.`tax`) AS `taxValue` "
 				+ "FROM `Output` `o` LEFT JOIN `OutputEntry` `e` ON `o`.`id` = `e`.`output` "
@@ -272,7 +273,7 @@ public class Output extends ArrayList<Item>{
 	public static Output read(Integer id) {
 		Output output = null;
 
-		try(Connection conn = SQL.getConnection()) {
+		try(Connection conn = SQL.getInstance().getConnection()) {
 			PreparedStatement pstat = conn.prepareStatement(""
 				+ "SELECT `id`, `code`, `instant`, `target`, `paid` "
 				+ "FROM `Output` "
@@ -318,7 +319,7 @@ public class Output extends ArrayList<Item>{
 	public static Output read(String code) {
 		Output output = null;
 
-		try(Connection conn = SQL.getConnection()) {
+		try(Connection conn = SQL.getInstance().getConnection()) {
 			PreparedStatement pstat = conn.prepareStatement(""
 				+ "SELECT `id`, `code`, `instant`, `author`, `target`, `paid` "
 				+ "FROM `Output` "
@@ -409,7 +410,7 @@ public class Output extends ArrayList<Item>{
 	public static boolean delete(Output output) {
 		boolean result = false;
 		
-		try(Connection conn = SQL.getConnection()) {
+		try(Connection conn = SQL.getInstance().getConnection()) {
 			PreparedStatement pstat = conn.prepareStatement("DELETE FROM  `Output` WHERE `id` = ?");
 			pstat.setInt(1, output.getId());
 			

@@ -52,7 +52,7 @@ public class Employee {
 	public String getEmail() {return email;}
 
 	public void setCode(String code) {
-		try(Connection connection = SQL.getConnection()) {
+		try(Connection connection = SQL.getInstance().getConnection()) {
 			PreparedStatement preparedStatement = connection.prepareStatement("UPDATE `Employee` SET `code` = ? WHERE `id` = ?");
 
 			preparedStatement.setString(1, code);
@@ -69,7 +69,7 @@ public class Employee {
 
 	public void setName(String name) {
 		
-		try(Connection connection = SQL.getConnection()) {
+		try(Connection connection = SQL.getInstance().getConnection()) {
 			PreparedStatement preparedStatement = connection.prepareStatement("UPDATE `Employee` SET `name` = ? WHERE `id` = ?");
 
 			preparedStatement.setString(1, name);
@@ -85,7 +85,7 @@ public class Employee {
 	}
 	
 	public void setAddress(String address) {
-		try(Connection connection = SQL.getConnection()) {
+		try(Connection connection = SQL.getInstance().getConnection()) {
 			PreparedStatement preparedStatement = connection.prepareStatement("UPDATE `Employee` SET `address` = ? WHERE `id` = ?");
 
 			preparedStatement.setString(1, address);
@@ -101,7 +101,7 @@ public class Employee {
 	}
 	
 	public void setPhone(String phone) {
-		try(Connection connection = SQL.getConnection()) {
+		try(Connection connection = SQL.getInstance().getConnection()) {
 			PreparedStatement preparedStatement = connection.prepareStatement("UPDATE `Employee` SET `phone` = ? WHERE `id` = ?");
 
 			preparedStatement.setString(1, phone);
@@ -117,7 +117,7 @@ public class Employee {
 	}
 	
 	public void setEmail(String email) {
-		try(Connection connection = SQL.getConnection()) {
+		try(Connection connection = SQL.getInstance().getConnection()) {
 			PreparedStatement preparedStatement = connection.prepareStatement("UPDATE `Employee` SET `email` = ? WHERE `id` = ?");
 
 			preparedStatement.setString(1, email);
@@ -165,7 +165,7 @@ public class Employee {
 		
 		boolean active = false;
 		
-		try(Connection conn = SQL.getConnection()) {
+		try(Connection conn = SQL.getInstance().getConnection()) {
 			PreparedStatement pstat;
 			ResultSet rset;
 			
@@ -185,7 +185,7 @@ public class Employee {
 	
 	public void setActive(boolean active) {
 		if(active) {
-			try(Connection conn = SQL.getConnection()) {
+			try(Connection conn = SQL.getInstance().getConnection()) {
 				PreparedStatement pstat;
 
 				pstat = conn.prepareStatement("CREATE USER IF NOT EXISTS ?@'%' IDENTIFIED BY ?");
@@ -202,7 +202,7 @@ public class Employee {
 			}
 		}
 		else {
-			try(Connection conn = SQL.getConnection()) {
+			try(Connection conn = SQL.getInstance().getConnection()) {
 				PreparedStatement pstat;
 
 				pstat = conn.prepareStatement("DROP USER IF EXISTS ?;");
@@ -220,7 +220,7 @@ public class Employee {
 		
 		Employee result = null;
 		
-		try(Connection connection = SQL.getConnection()) {
+		try(Connection connection = SQL.getInstance().getConnection()) {
 			PreparedStatement preparedStatement = connection.prepareStatement(
 				"INSERT INTO `Employee` (`code`, `name`, `address`, `phone`, `email`) VALUES (?,?,?,?,?) ", 
 				PreparedStatement.RETURN_GENERATED_KEYS);
@@ -248,7 +248,7 @@ public class Employee {
 	public static Employee read(int id) {
 		Employee employee = null;
 
-		try(Connection connection = SQL.getConnection()) {
+		try(Connection connection = SQL.getInstance().getConnection()) {
 			PreparedStatement preparedStatement = connection.prepareStatement(""
 				+ "SELECT `code`, `name`, `address`, `phone`, `email` "
 				+ "FROM `Employee` "
@@ -279,7 +279,7 @@ public class Employee {
 	public static Employee read(String code) {
 		Employee employee = null;
 
-		try(Connection connection = SQL.getConnection()) {
+		try(Connection connection = SQL.getInstance().getConnection()) {
 			PreparedStatement preparedStatement = connection.prepareStatement(""
 				+ "SELECT `id`, `code`, `name`, `address`, `phone`, `email` "
 				+ "FROM `Employee` "
@@ -311,7 +311,7 @@ public class Employee {
 	public static List<Employee> read() {
 		List<Employee> employees = new ArrayList<>();
 
-		try(Connection connection = SQL.getConnection()) {
+		try(Connection connection = SQL.getInstance().getConnection()) {
 			PreparedStatement preparedStatement = connection.prepareStatement(""
 				+ "SELECT `id`, `code`, `name`, `address`, `phone`, `email` "
 				+ "FROM `Employee` ");
@@ -341,7 +341,7 @@ public class Employee {
 		
 		int result = -1;
 
-		try(Connection connection = SQL.getConnection()) {
+		try(Connection connection = SQL.getInstance().getConnection()) {
 			PreparedStatement preparedStatement = connection.prepareStatement("DELETE FROM `Employee` WHERE `id` = ?");
 
 			preparedStatement.setInt(1, employee.getId());

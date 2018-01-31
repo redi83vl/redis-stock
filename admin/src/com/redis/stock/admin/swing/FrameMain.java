@@ -70,7 +70,6 @@ public class FrameMain extends javax.swing.JFrame {
           filler1 = new javax.swing.Box.Filler(new java.awt.Dimension(0, 0), new java.awt.Dimension(0, 0), new java.awt.Dimension(32767, 0));
           jMenuBar1 = new javax.swing.JMenuBar();
           jMenu1 = new javax.swing.JMenu();
-          jMenuItem4 = new javax.swing.JMenuItem();
           jMenuItem5 = new javax.swing.JMenuItem();
           jMenu3 = new javax.swing.JMenu();
           jMenuItem1 = new javax.swing.JMenuItem();
@@ -146,15 +145,6 @@ public class FrameMain extends javax.swing.JFrame {
           getContentPane().add(jToolBar1, java.awt.BorderLayout.NORTH);
 
           jMenu1.setText("File");
-
-          jMenuItem4.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/config-16.png"))); // NOI18N
-          jMenuItem4.setText("Konfigurim!");
-          jMenuItem4.addActionListener(new java.awt.event.ActionListener() {
-               public void actionPerformed(java.awt.event.ActionEvent evt) {
-                    jMenuItem4ActionPerformed(evt);
-               }
-          });
-          jMenu1.add(jMenuItem4);
 
           jMenuItem5.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_ESCAPE, java.awt.event.InputEvent.ALT_MASK | java.awt.event.InputEvent.CTRL_MASK));
           jMenuItem5.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/shutdown-16.png"))); // NOI18N
@@ -282,12 +272,6 @@ public class FrameMain extends javax.swing.JFrame {
 		dialog.setVisible(true);
      }//GEN-LAST:event_jMenuItem3ActionPerformed
 
-     private void jMenuItem4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem4ActionPerformed
-          DialogConfig dialog = new DialogConfig(this);
-		dialog.setLocationRelativeTo(this);
-		dialog.setVisible(true);
-     }//GEN-LAST:event_jMenuItem4ActionPerformed
-
      private void jMenuItem5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem5ActionPerformed
           this.dispose();
      }//GEN-LAST:event_jMenuItem5ActionPerformed
@@ -315,7 +299,6 @@ public class FrameMain extends javax.swing.JFrame {
      private javax.swing.JMenuItem jMenuItem1;
      private javax.swing.JMenuItem jMenuItem2;
      private javax.swing.JMenuItem jMenuItem3;
-     private javax.swing.JMenuItem jMenuItem4;
      private javax.swing.JMenuItem jMenuItem5;
      private javax.swing.JToolBar jToolBar1;
      // End of variables declaration//GEN-END:variables

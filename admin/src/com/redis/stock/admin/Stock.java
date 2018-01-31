@@ -16,32 +16,66 @@
  */
 package com.redis.stock.admin;
 
-import java.util.prefs.Preferences;
+import com.redis.stock.SQL;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.SQLException;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.util.Properties;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  *
  * @author Redjan Shabani
  */
 public class Stock {
-	private static final Preferences PREFERENCES = Preferences.userNodeForPackage(Stock.class);
+	private final Properties properties;
+
+	private Stock(Properties properties) {this.properties = properties;}
 	
-	public static String getCode() {return PREFERENCES.get("stock_code", "");}
-	public static String getName() {return PREFERENCES.get("stock_name", "");}
-	public static String getAddress() {return PREFERENCES.get("stock_address", "");}
-	public static String getPhone() {return PREFERENCES.get("stock_phone", "");}
-	public static String getEmail() {return PREFERENCES.get("stock_email", "");}
+	public String getCode() {return properties.getProperty("code");}
+	public String getName() {return properties.getProperty("name");}
+	public String getPhone() {return properties.getProperty("phone");}
+	public String getAddress() {return properties.getProperty("address");}
+	public String getEmail() {return properties.getProperty("email");}	
 	
-	public static void setCode(String code) {PREFERENCES.put("stock_code", code);}
-	public static void setName(String name) {PREFERENCES.put("stock_name", name);}
-	public static void setAddress(String address) {PREFERENCES.put("stock_address", address);}
-	public static void setPhone(String phone) {PREFERENCES.put("stock_phone", phone);}
-	public static void setEmail(String email) {PREFERENCES.put("stock_email", email);}
 	
+	
+	
+	
+	public static Stock getInstance() {
+		Properties props = new Properties();
+		
+		try(FileInputStream fis = new FileInputStream(new File("stock.xml"))){
+			props.loadFromXML(fis);
+		} 
+		catch (IOException ex) {
+			Logger.getLogger(SQL.class.getName()).log(Level.SEVERE, null, ex);
+		}
+		
+		return new Stock(props);		
+	}	
+			
 	public static void main(String[] args) {
-		Stock.setCode("L76604205F");
-		Stock.setName("REDJAN SHABANI P. F.");
-		Stock.setAddress("Lagja Pavaresia, Rruga F. Gjomema, Vlore 9403");
-		Stock.setPhone("+355 69 20 48 755");
-		Stock.setEmail("redjan.shabani@gmail.com");
+		Properties props = new Properties();
+		props.setProperty("code", "L76604205F");
+		props.setProperty("name", "REDIS IT");
+		props.setProperty("address", "L. PAVARESIA, RR. KOSOVA, VLORE 9403");
+		props.setProperty("phone", "+355 69 20 48 755");
+		props.setProperty("email", "REDJAN.SHABANI@GMAIL.COM");
+		try(FileOutputStream fos = new FileOutputStream(new File("stock.xml"))){
+			props.storeToXML(fos, LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyMMddHHmmss")));
+		}
+		catch (IOException ex) {
+			Logger.getLogger(SQL.class.getName()).log(Level.SEVERE, null, ex);
+		}		
 	}
+
+	
 }

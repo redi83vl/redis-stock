@@ -51,7 +51,7 @@ public class Report {
 	public TableModel getTableModel() {
 		DefaultTableModel tableModel = new DefaultTableModel();
 		
-		try(Connection c = SQL.getConnection()) {
+		try(Connection c = SQL.getInstance().getConnection()) {
 			
 			
 			ResultSet rs = c.prepareStatement("SELECT * FROM " + this.view).executeQuery();
@@ -98,7 +98,7 @@ public class Report {
 	public static List<Report> read() {
 		List<Report> reports = new ArrayList<>();
 		
-		try(Connection connection = SQL.getConnection()) {
+		try(Connection connection = SQL.getInstance().getConnection()) {
 			ResultSet resultSet = connection.prepareStatement("SELECT `id`, `name`, `description`, `view` FROM `report`").executeQuery();
 			while(resultSet.next()) {
 				reports.add(

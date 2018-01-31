@@ -18,13 +18,9 @@ package com.redis.stock.admin.utils;
 
 import com.redis.stock.admin.Stock;
 import com.redis.stock.admin.core.Input;
-import com.redis.stock.admin.swing.input.DialogInputView;
 import java.awt.Desktop;
-import java.io.BufferedWriter;
 import java.io.File;
-import java.io.FileWriter;
 import java.io.IOException;
-import java.io.StringWriter;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.xml.parsers.DocumentBuilder;
@@ -36,7 +32,6 @@ import javax.xml.transform.TransformerException;
 import javax.xml.transform.TransformerFactory;
 import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
-import org.w3c.dom.Attr;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
@@ -127,15 +122,16 @@ public class HTML {
 		div.setAttribute("class", "container");
 		
 		//EMERTIMI I MAGAZINES
-		Element stock = doc.createElement("div");
-		stock.setAttribute("class", "jumbotron text-center");		
-		stock.appendChild(doc.createTextNode(Stock.getCode() + " - " + Stock.getName()));
-		stock.appendChild(doc.createElement("br"));			
-		stock.appendChild(doc.createTextNode(Stock.getAddress()));
-		stock.appendChild(doc.createElement("br"));		
-		stock.appendChild(doc.createTextNode(Stock.getPhone() + " | " + Stock.getEmail()));
-		stock.appendChild(doc.createElement("br"));		
-		div.appendChild(stock);
+		Stock stock = Stock.getInstance();	
+		Element stockElem = doc.createElement("div");
+		stockElem.setAttribute("class", "jumbotron text-center");		
+		stockElem.appendChild(doc.createTextNode(stock.getCode() + " - " + stock.getName()));
+		stockElem.appendChild(doc.createElement("br"));			
+		stockElem.appendChild(doc.createTextNode(stock.getAddress()));
+		stockElem.appendChild(doc.createElement("br"));		
+		stockElem.appendChild(doc.createTextNode(stock.getPhone() + " | " + stock.getEmail()));
+		stockElem.appendChild(doc.createElement("br"));		
+		div.appendChild(stockElem);
 		
 		//TITULLI I DOKUMENTIT
 		Element title = doc.createElement("h3");

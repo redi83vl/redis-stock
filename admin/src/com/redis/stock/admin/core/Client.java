@@ -52,7 +52,7 @@ public class Client {
 	public String getEmail() {return email;}
 
 	public void setCode(String code) {
-		try(Connection connection = SQL.getConnection()) {
+		try(Connection connection = SQL.getInstance().getConnection()) {
 			PreparedStatement preparedStatement = connection.prepareStatement("UPDATE `Client` SET `code` = ? WHERE `id` = ?");
 
 			preparedStatement.setString(1, code);
@@ -69,7 +69,7 @@ public class Client {
 
 	public void setName(String name) {
 		
-		try(Connection connection = SQL.getConnection()) {
+		try(Connection connection = SQL.getInstance().getConnection()) {
 			PreparedStatement preparedStatement = connection.prepareStatement("UPDATE `Client` SET `name` = ? WHERE `id` = ?");
 
 			preparedStatement.setString(1, name);
@@ -85,7 +85,7 @@ public class Client {
 	}
 	
 	public void setAddress(String address) {
-		try(Connection connection = SQL.getConnection()) {
+		try(Connection connection = SQL.getInstance().getConnection()) {
 			PreparedStatement preparedStatement = connection.prepareStatement("UPDATE `Client` SET `address` = ? WHERE `id` = ?");
 
 			preparedStatement.setString(1, address);
@@ -101,7 +101,7 @@ public class Client {
 	}
 	
 	public void setPhone(String phone) {
-		try(Connection connection = SQL.getConnection()) {
+		try(Connection connection = SQL.getInstance().getConnection()) {
 			PreparedStatement preparedStatement = connection.prepareStatement("UPDATE `Client` SET `phone` = ? WHERE `id` = ?");
 
 			preparedStatement.setString(1, phone);
@@ -117,7 +117,7 @@ public class Client {
 	}
 	
 	public void setEmail(String email) {
-		try(Connection connection = SQL.getConnection()) {
+		try(Connection connection = SQL.getInstance().getConnection()) {
 			PreparedStatement preparedStatement = connection.prepareStatement("PDATE `Client` SET `email` = ? WHERE `id` = ?");
 
 			preparedStatement.setString(1, email);
@@ -167,7 +167,7 @@ public class Client {
 		
 		Client result = null;
 		
-		try(Connection connection = SQL.getConnection()) {
+		try(Connection connection = SQL.getInstance().getConnection()) {
 			PreparedStatement preparedStatement = connection.prepareStatement(
 				"INSERT INTO `Client` (`code`, `name`, `address`, `phone`, `email`) VALUES (?,?,?,?,?) ", 
 				PreparedStatement.RETURN_GENERATED_KEYS);
@@ -195,7 +195,7 @@ public class Client {
 	public static Client read(int id) {
 		Client client = null;
 
-		try(Connection connection = SQL.getConnection()) {
+		try(Connection connection = SQL.getInstance().getConnection()) {
 			PreparedStatement preparedStatement = connection.prepareStatement(""
 				+ "SELECT `id`, `code`, `name`, `address`, `phone`, `email` "
 				+ "FROM `Client` "
@@ -226,7 +226,7 @@ public class Client {
 	public static Client read(String code) {
 		Client client = null;
 
-		try(Connection connection = SQL.getConnection()) {
+		try(Connection connection = SQL.getInstance().getConnection()) {
 			PreparedStatement preparedStatement = connection.prepareStatement(""
 				+ "SELECT `id`, `code`, `name`, `address`, `phone`, `email` "
 				+ "FROM `Client` "
@@ -258,7 +258,7 @@ public class Client {
 	public static List<Client> read() {
 		List<Client> clients = new ArrayList<>();
 
-		try(Connection connection = SQL.getConnection()) {
+		try(Connection connection = SQL.getInstance().getConnection()) {
 			PreparedStatement preparedStatement = connection.prepareStatement(""
 				+ "SELECT `id`, `code`, `name`, `address`, `phone`, `email` "
 				+ "FROM `Client` ");
@@ -287,7 +287,7 @@ public class Client {
 		
 		int result = -1;
 
-		try(Connection connection = SQL.getConnection()) {
+		try(Connection connection = SQL.getInstance().getConnection()) {
 			PreparedStatement preparedStatement = connection.prepareStatement("DELETE FROM `Client` WHERE `id` = ?");
 			
 			
