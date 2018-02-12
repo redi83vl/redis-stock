@@ -1,0 +1,13 @@
+INSERT INTO Warehouse(code,name,address,phone,email) VALUES ('M1','AZA ELEKTROSHTEPIAKE','Vlore',NULL,NULL);
+INSERT INTO Warehouse(code,name,address,phone,email) VALUES ('M5','DYQANI FIER','Rr. "Jakov Xoxa", Fier',NULL,NULL);
+INSERT INTO Warehouse(code,name,address,phone,email) VALUES ('M6','DYQANI TIRANE','Pajtoni Center, Tirane',NULL,NULL);
+INSERT INTO Warehouse(code,name,address,phone,email) VALUES ('M7','DYQANI ELBASAN','Qendra "Dardan?t", Elbasan',NULL,NULL);
+INSERT INTO Warehouse(code,name,address,phone,email) VALUES ('M8','DYQANI KAVAJE','Blv. "Josif Budo", Kavaje',NULL,NULL);
+INSERT INTO Warehouse(code,name,address,phone,email) VALUES ('M9','DYQANI VLORE','Blv  Gjergj Kastrioti, Vlore',NULL,NULL);
+INSERT INTO Warehouse(code,name,address,phone,email) VALUES ('M10','DYQANI DURRES','Rr. "Adria", Durres',NULL,NULL);
+INSERT INTO Warehouse(code,name,address,phone,email) VALUES ('M11','DYQANI SHKODER','Rr. Qemal Dra?ini, Shkoder',NULL,NULL);
+INSERT INTO Warehouse(code,name,address,phone,email) VALUES ('M12','DYQANI TIRANE 2 SELVIA','Rr. e Dibres, Tirane',NULL,NULL);
+INSERT INTO Warehouse(code,name,address,phone,email) VALUES ('M13','DYQANI LUSHNJE','Sh?titorja e Palmave, Lushnje',NULL,NULL);
+INSERT INTO Warehouse(code,name,address,phone,email) VALUES ('M14','DYQANI KORCE','Blv. Fan Noli, Korce',NULL,NULL);
+INSERT INTO Warehouse(code,name,address,phone,email) VALUES ('M15','MAGAZINA SERVIS','Vlore',NULL,NULL);
+INSERT INTO Warehouse(code,name,address,phone,email) VALUES ('M16','MAGAZINA SHUMICE','Vlore',NULL,NULL);

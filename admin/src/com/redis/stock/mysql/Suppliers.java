@@ -16,7 +16,7 @@
  */
 package com.redis.stock.mysql;
 
-import com.redis.stock.core.Customer;
+import com.redis.stock.core.Supplier;
 import com.redis.stock.utils.Dataset;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -30,11 +30,11 @@ import java.util.logging.Logger;
  *
  * @author Redjan Shabani
  */
-public class Suppliers implements Dataset<Customer>{
+public class Suppliers implements Dataset<Supplier>{
 
-	private static final String INSERT = "INSERT INTO Customer (code, name, address, phone, email) VALUES (?,?,?,?,?) ON DUPLICATE KEY UPDATE name = ?, address = ?, phone = ?, email = ?";
+	private static final String INSERT = "INSERT INTO Supplier (code, name, address, phone, email) VALUES (?,?,?,?,?) ON DUPLICATE KEY UPDATE name = ?, address = ?, phone = ?, email = ?";
 	@Override
-	public boolean insert(Customer entry) {
+	public boolean add(Supplier entry) {
 		boolean success = false;
 		
 		try(Connection conn = DB.getConnection()) {
@@ -52,6 +52,10 @@ public class Suppliers implements Dataset<Customer>{
 			pstat.setString(7, entry.getAddress());
 			pstat.setString(8, entry.getPhone());
 			pstat.setString(9, entry.getEmail());
+			
+			pstat.execute();
+			
+			success = true;
 		} 
 		catch (SQLException ex) {
 			Logger.getLogger(Suppliers.class.getName()).log(Level.SEVERE, null, ex);
@@ -60,9 +64,9 @@ public class Suppliers implements Dataset<Customer>{
 		return success;
 	}
 
-	private static final String DELETE = "DELETE FROM Customer WHERE code = ?";
+	private static final String DELETE = "DELETE FROM Supplier WHERE code = ?";
 	@Override
-	public boolean delete(Customer entry) {
+	public boolean remove(Supplier entry) {
 		boolean success = false;	
 		
 		try(Connection conn = DB.getConnection()) {
@@ -80,9 +84,9 @@ public class Suppliers implements Dataset<Customer>{
 		return success;
 	}
 
-	private static final String SELECT = "SELECT code, name, address, phone, email FROM Customer ORDER BY name ASC";
+	private static final String SELECT = "SELECT code, name, address, phone, email FROM Supplier ORDER BY name ASC";
 	@Override
-	public boolean forEahc(Consumer<Customer> consumer) {
+	public boolean forEach(Consumer<Supplier> consumer) {
 		boolean success = false;		
 		
 		try(Connection conn = DB.getConnection()) {
@@ -92,7 +96,7 @@ public class Suppliers implements Dataset<Customer>{
 			ResultSet rset = pstat.executeQuery();
 			
 			while(rset.next()) {
-				Customer warehouse = new Customer(
+				Supplier warehouse = new Supplier(
 					rset.getString("code"), 
 					rset.getString("name"), 
 					rset.getString("address"),
@@ -110,6 +114,10 @@ public class Suppliers implements Dataset<Customer>{
 		}		
 		
 		return success;
+	}
+	
+	public static Dataset<Supplier> getDataset() {
+		return new Suppliers();
 	}
 	
 }

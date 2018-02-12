@@ -34,7 +34,7 @@ public class Customers implements Dataset<Customer>{
 
 	private static final String INSERT = "INSERT INTO Customer (code, name, address, phone, email) VALUES (?,?,?,?,?) ON DUPLICATE KEY UPDATE name = ?, address = ?, phone = ?, email = ?";
 	@Override
-	public boolean insert(Customer entry) {
+	public boolean add(Customer entry) {
 		boolean success = false;
 		
 		try(Connection conn = DB.getConnection()) {
@@ -52,6 +52,10 @@ public class Customers implements Dataset<Customer>{
 			pstat.setString(7, entry.getAddress());
 			pstat.setString(8, entry.getPhone());
 			pstat.setString(9, entry.getEmail());
+			
+			pstat.execute();
+			
+			success = true;
 		} 
 		catch (SQLException ex) {
 			Logger.getLogger(Customers.class.getName()).log(Level.SEVERE, null, ex);
@@ -62,7 +66,7 @@ public class Customers implements Dataset<Customer>{
 
 	private static final String DELETE = "DELETE FROM Customer WHERE code = ?";
 	@Override
-	public boolean delete(Customer entry) {
+	public boolean remove(Customer entry) {
 		boolean success = false;	
 		
 		try(Connection conn = DB.getConnection()) {
@@ -82,7 +86,7 @@ public class Customers implements Dataset<Customer>{
 
 	private static final String SELECT = "SELECT code, name, address, phone, email FROM Customer ORDER BY name ASC";
 	@Override
-	public boolean forEahc(Consumer<Customer> consumer) {
+	public boolean forEach(Consumer<Customer> consumer) {
 		boolean success = false;		
 		
 		try(Connection conn = DB.getConnection()) {
@@ -110,6 +114,10 @@ public class Customers implements Dataset<Customer>{
 		}		
 		
 		return success;
+	}
+	
+	public static Dataset<Customer> getDataset() {
+		return new Customers();
 	}
 	
 }

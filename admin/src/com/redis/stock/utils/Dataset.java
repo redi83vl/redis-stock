@@ -24,7 +24,7 @@ import java.util.function.Consumer;
  * @param <T>
  */
 public interface Dataset<T> {
-	public boolean insert(T entry);
-	public boolean delete(T entry);
-	public boolean forEahc(Consumer<T> consumer);
+	public boolean add(T entry);
+	public boolean remove(T entry);
+	public boolean forEach(Consumer<T> consumer);
 }

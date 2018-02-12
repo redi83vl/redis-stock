@@ -30,11 +30,11 @@ import java.util.logging.Logger;
  *
  * @author Redjan Shabani
  */
-public class Warehouses implements Dataset<Warehouse>{
+public class Warehouses implements Dataset<Warehouse> {
 
 	private static final String INSERT = "INSERT INTO Warehouse (code, name, address, phone, email) VALUES (?,?,?,?,?) ON DUPLICATE KEY UPDATE name = ?, address = ?, phone = ?, email = ?";
 	@Override
-	public boolean insert(Warehouse entry) {
+	public boolean add(Warehouse entry) {
 		boolean success = false;
 		
 		try(Connection conn = DB.getConnection()) {
@@ -52,6 +52,10 @@ public class Warehouses implements Dataset<Warehouse>{
 			pstat.setString(7, entry.getAddress());
 			pstat.setString(8, entry.getPhone());
 			pstat.setString(9, entry.getEmail());
+			
+			pstat.execute();
+			
+			success = true;
 		} 
 		catch (SQLException ex) {
 			Logger.getLogger(Warehouses.class.getName()).log(Level.SEVERE, null, ex);
@@ -62,13 +66,13 @@ public class Warehouses implements Dataset<Warehouse>{
 
 	private static final String DELETE = "DELETE FROM Warehouse WHERE code = ?";
 	@Override
-	public boolean delete(Warehouse entry) {
+	public boolean remove(Warehouse entry) {
 		boolean success = false;	
 		
 		try(Connection conn = DB.getConnection()) {
 			
 			PreparedStatement pstat = conn.prepareStatement(DELETE);
-			
+			pstat.setString(1, entry.getCode());
 			pstat.execute();
 			
 			success = true;
@@ -80,9 +84,9 @@ public class Warehouses implements Dataset<Warehouse>{
 		return success;
 	}
 
-	private static final String SELECT = "SELECT code, name, address, phone, email FROM Warehouse ORDER BY name ASC";
+	private static final String SELECT = "SELECT code, name, address, phone, email FROM Warehouse";
 	@Override
-	public boolean forEahc(Consumer<Warehouse> consumer) {
+	public boolean forEach(Consumer<Warehouse> consumer) {
 		boolean success = false;		
 		
 		try(Connection conn = DB.getConnection()) {
@@ -110,6 +114,11 @@ public class Warehouses implements Dataset<Warehouse>{
 		}		
 		
 		return success;
+	}
+	
+	
+	public static Dataset<Warehouse> getDataset() {
+		return new Warehouses();
 	}
 	
 }

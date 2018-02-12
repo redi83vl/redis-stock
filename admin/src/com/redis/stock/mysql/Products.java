@@ -31,12 +31,14 @@ import java.util.logging.Logger;
  * @author Redjan Shabani
  */
 public class Products implements Dataset<Product>{
+	
+	private Products(){}
 
 	private static final String INSERT = ""
-		+ "INSERT INTO Product (code, group, name, unit, costPrice, buyPrice, sellPrice, taxRatio) VALUES (?,?,?,?,?,?,?,?) "
-		+ "ON DUPLICATE KEY UPDATE group - ?, name - ?, unit - ?, costPrice - ?, buyPrice - ?, sellPrice - ?, taxRatio - ?";
+		+ "INSERT INTO Product (code, `group`, name, unit, costPrice, buyPrice, sellPrice, taxRatio) VALUES (?,?,?,?,?,?,?,?) "
+		+ "ON DUPLICATE KEY UPDATE `group` = ?, name = ?, unit = ?, costPrice = ?, buyPrice = ?, sellPrice = ?, taxRatio = ?";
 	@Override
-	public boolean insert(Product entry) {
+	public boolean add(Product entry) {
 		boolean success = false;
 		
 		try(Connection conn = DB.getConnection()) {
@@ -60,6 +62,10 @@ public class Products implements Dataset<Product>{
 			pstat.setDouble(13, entry.getBuyPrice());
 			pstat.setDouble(14, entry.getSellPrice());
 			pstat.setDouble(15, entry.getTaxRatio());
+			
+			pstat.execute();
+			
+			success = true;
 		} 
 		catch (SQLException ex) {
 			Logger.getLogger(Products.class.getName()).log(Level.SEVERE, null, ex);
@@ -70,12 +76,13 @@ public class Products implements Dataset<Product>{
 
 	private static final String DELETE = "DELETE FROM Product WHERE code = ?";
 	@Override
-	public boolean delete(Product entry) {
+	public boolean remove(Product entry) {
 		boolean success = false;	
 		
 		try(Connection conn = DB.getConnection()) {
 			
 			PreparedStatement pstat = conn.prepareStatement(DELETE);
+			pstat.setString(1, entry.getCode());
 			
 			pstat.execute();
 			
@@ -88,9 +95,9 @@ public class Products implements Dataset<Product>{
 		return success;
 	}
 
-	private static final String SELECT = "SELECT code, group, name, unit, costPrice, buyPrice, sellPrice, taxRatio FROM Product ORDER BY name ASC";
+	private static final String SELECT = "SELECT code, `group`, name, unit, costPrice, buyPrice, sellPrice, taxRatio FROM Product ORDER BY name ASC";
 	@Override
-	public boolean forEahc(Consumer<Product> consumer) {
+	public boolean forEach(Consumer<Product> consumer) {
 		boolean success = false;		
 		
 		try(Connection conn = DB.getConnection()) {
@@ -121,6 +128,10 @@ public class Products implements Dataset<Product>{
 		}		
 		
 		return success;
+	}
+	
+	public static Dataset<Product> getDataset() {
+		return new Products();
 	}
 	
 }
