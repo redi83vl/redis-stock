@@ -1,1 +1,14 @@
-code;name;address;phone;emailM1;AZA ELEKTROSHTEPIAKE;Vlore;;M5;DYQANI FIER;"Rr. ""Jakov Xoxa"", Fier";;M6;DYQANI TIRANE;Pajtoni Center, Tirane;;M7;DYQANI ELBASAN;"Qendra ""Dardan?t"", Elbasan";;M8;DYQANI KAVAJE;"Blv. ""Josif Budo"", Kavaje";;M9;DYQANI VLORE;Blv  Gjergj Kastrioti, Vlore;;M10;DYQANI DURRES;"Rr. ""Adria"", Durres";;M11;DYQANI SHKODER;Rr. Qemal Dra?ini, Shkoder;;M12;DYQANI TIRANE 2 SELVIA;Rr. e Dibres, Tirane;;M13;DYQANI LUSHNJE;Sh?titorja e Palmave, Lushnje;;M14;DYQANI KORCE;Blv. Fan Noli, Korce;;M15;MAGAZINA SERVIS;Vlore;;M16;MAGAZINA SHUMICE;Vlore;;
+﻿code;name;address;phone
+M1;AZA ELEKTROSHTEPIAKE;Vlore;NULL
+M5;DYQANI FIER;"Rr. ""Jakov Xoxa"", Fier";034 50 4960
+M6;DYQANI TIRANE;Pajtoni Center, Tirane;042 45 3002
+M7;DYQANI ELBASAN;"Qendra ""Dardanët"", Elbasan";054 51 4667
+M8;DYQANI KAVAJE;"Blv. ""Josif Budo"", Kavaje";055 80 0766
+M9;DYQANI VLORE;Blv  Gjergj Kastrioti, Vlore;033 40 9931
+M10;DYQANI DURRES;"Rr. ""Adria"", Durres";052 42 0428
+M11;DYQANI SHKODER;Rr. Qemal Draçini, Shkoder;022 80 2573
+M12;DYQANI TIRANE 2 SELVIA;Rr. e Dibres, Tirane;044 53 9060
+M13;DYQANI LUSHNJE;Shëtitorja e Palmave, Lushnje;035 70 4848
+M14;DYQANI KORCE;Blv. Fan Noli, Korce;082 24 4490
+M15;MAGAZINA SERVIS;NULL;NULL
+M16;MAGAZINA SHUMICE;Vlore;NULL
